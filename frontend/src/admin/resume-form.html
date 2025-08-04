@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이력서 관리</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .resume-form-container {
+            width: 1000px;
+            max-width: 100%;
+            margin: 40px auto;
+            padding: 30px 40px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .resume-form-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #222;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .form-photo-preview {
+            margin-top: 10px;
+        }
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .btn-submit, .btn-cancel {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-submit {
+            background: #007bff;
+            color: white;
+        }
+        .btn-submit:hover {
+            background: #0056b3;
+        }
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-cancel:hover {
+            background: #545b62;
+        }
+        body {
+            background: #f8f9fb;
+        }
+    </style>
+</head>
+<body>
+<div class="resume-form-container">
+    <h1 class="resume-form-title">이력서 관리</h1>
+    <form th:action="@{/admin/resume}" th:object="${resume}" method="post">
+        <div class="form-group">
+            <label class="form-label">사진 URL</label>
+            <input type="text" th:field="*{photoUrl}" class="form-input" placeholder="이미지 URL을 입력하세요">
+            <div class="form-photo-preview" th:if="${resume.photoUrl}">
+                <img th:src="${resume.photoUrl}" alt="프로필 사진" style="max-width:120px; border-radius:8px;">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="color:#1565c0;">이름 <span style="font-size:0.95em;">(��🇷)</span></label>
+            <input type="text" th:field="*{nameKo}" class="form-input" placeholder="예: 최은혁" required>
+            <label class="form-label" style="color:#f9a825; margin-left:16px;">이름 <span style="font-size:0.95em;">(🇯🇵)</span></label>
+            <input type="text" th:field="*{nameJa}" class="form-input" placeholder="例: 崔恩爀(通称：高原優輝）" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">연락처</label>
+            <input type="text" th:field="*{phone}" class="form-input">
+        </div>
+        <div class="form-group">
+            <label class="form-label">이메일</label>
+            <input type="email" th:field="*{email}" class="form-input">
+        </div>
+        <div class="form-group">
+            <label class="form-label">생년월일</label>
+            <input type="date" th:field="*{birth}" class="form-input">
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="color:#1565c0;">주소 <span style="font-size:0.95em;">(��🇷)</span></label>
+            <input type="text" th:field="*{addressKo}" class="form-input" placeholder="예: 대한민국 경기도 용인시 ...">
+            <label class="form-label" style="color:#f9a825; margin-left:16px;">주소 <span style="font-size:0.95em;">(🇯🇵)</span></label>
+            <input type="text" th:field="*{addressJa}" class="form-input" placeholder="例: 韓民国 京畿道 ...">
+        </div>
+        <div class="form-group">
+            <label class="form-label">학력</label>
+            <table id="education-table" style="width:100%; margin-bottom:8px; border-collapse:collapse;">
+                <thead style="position:sticky; top:0; background:#f8f8f8;">
+                    <tr>
+                        <th style="background:#e3f2fd; color:#1565c0;">학교명 <span style="font-size:0.95em;">(🇰🇷)</span></th>
+                        <th style="background:#fffde7; color:#f9a825;">학교명 <span style="font-size:0.95em;">(🇯🇵)</span></th>
+                        <th style="background:#e3f2fd; color:#1565c0;">전공 <span style="font-size:0.95em;">(🇰🇷)</span></th>
+                        <th style="background:#fffde7; color:#f9a825;">전공 <span style="font-size:0.95em;">(🇯🇵)</span></th>
+                        <th>기간</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody id="education-tbody">
+                    <tr th:each="edu,stat : *{educations}" th:classappend="${stat.index % 2 == 0} ? 'even-row' : 'odd-row'">
+                        <td><input type="text" th:field="*{educations[__${stat.index}__].schoolKo}" class="form-input compact-input" placeholder="예: 상현고등학교"></td>
+                        <td><input type="text" th:field="*{educations[__${stat.index}__].schoolJa}" class="form-input compact-input" placeholder="例: 上峴高校"></td>
+                        <td><input type="text" th:field="*{educations[__${stat.index}__].degreeKo}" class="form-input compact-input" placeholder="예: 인문계"></td>
+                        <td><input type="text" th:field="*{educations[__${stat.index}__].degreeJa}" class="form-input compact-input" placeholder="例: 人文系"></td>
+                        <td><input type="text" th:field="*{educations[__${stat.index}__].period}" class="form-input compact-input" placeholder="2015.03-2018.02"></td>
+                        <td style="text-align:center;"><button type="button" class="remove-btn" onclick="removeRow(this)" title="삭제"><span aria-hidden="true">🗑️</span></button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="add-btn" onclick="addEducationRow()"><span aria-hidden="true">➕</span> 학력 추가</button>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">기술스택</label>
+            <input type="text" th:field="*{skills}" class="form-input" placeholder="Java, Spring, React, ...">
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="color:#1565c0;">학생생활(🇰🇷)</label>
+            <textarea th:field="*{studentLifeKo}" class="form-textarea" placeholder="한국어 성장과정"></textarea>
+            <label class="form-label" style="color:#f9a825; margin-left:16px;">学生生活(🇯🇵)</label>
+            <textarea th:field="*{studentLifeJa}" class="form-textarea" placeholder="日本語 学生生活"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="color:#1565c0;">장점과 단점(🇰🇷)</label>
+            <textarea th:field="*{strengthsWeaknessesKo}" class="form-textarea" placeholder="한국어 장단점"></textarea>
+            <label class="form-label" style="color:#f9a825; margin-left:16px;">長所と短所(🇯🇵)</label>
+            <textarea th:field="*{strengthsWeaknessesJa}" class="form-textarea" placeholder="日本語 長所と短所"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="color:#1565c0;">노력 경험(🇰🇷)</label>
+            <textarea th:field="*{effortExperienceKo}" class="form-textarea" placeholder="한국어 노력 경험"></textarea>
+            <label class="form-label" style="color:#f9a825; margin-left:16px;">努力経験(🇯🇵)</label>
+            <textarea th:field="*{effortExperienceJa}" class="form-textarea" placeholder="日本語 努力経験"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="color:#1565c0;">일본 IT 취업 동기(🇰🇷)</label>
+            <textarea th:field="*{japanItMotivationKo}" class="form-textarea" placeholder="한국어 일본 IT 취업 동기"></textarea>
+            <label class="form-label" style="color:#f9a825; margin-left:16px;">日本IT就職志望動機(🇯🇵)</label>
+            <textarea th:field="*{japanItMotivationJa}" class="form-textarea" placeholder="日本語 IT志望動機"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="color:#1565c0;">장래 계획(🇰🇷)</label>
+            <textarea th:field="*{futurePlanKo}" class="form-textarea" placeholder="한국어 장래 계획"></textarea>
+            <label class="form-label" style="color:#f9a825; margin-left:16px;">将来の計画(🇯🇵)</label>
+            <textarea th:field="*{futurePlanJa}" class="form-textarea" placeholder="日本語 将来の計画"></textarea>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn-submit">저장</button>
+            <a href="/admin" class="btn-cancel">취소</a>
+        </div>
+    </form>
+</div>
+<script>
+function addEducationRow() {
+    const tbody = document.getElementById('education-tbody');
+    const idx = tbody.children.length;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td><input type="text" name="educations[${idx}].schoolKo" class="form-input"></td>
+        <td><input type="text" name="educations[${idx}].schoolJa" class="form-input"></td>
+        <td><input type="text" name="educations[${idx}].degreeKo" class="form-input"></td>
+        <td><input type="text" name="educations[${idx}].degreeJa" class="form-input"></td>
+        <td><input type="text" name="educations[${idx}].period" class="form-input"></td>
+        <td><button type="button" onclick="removeRow(this)">삭제</button></td>
+    `;
+    tbody.appendChild(tr);
+}
+
+function removeRow(btn) {
+    btn.closest('tr').remove();
+}
+</script>
+</body>
+</html> 

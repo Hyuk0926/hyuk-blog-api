@@ -1,0 +1,95 @@
+<header th:fragment="header" class="navbar">
+    <head>
+        <style>
+        /* 기본(한국어) */
+        .navbar-brand {
+            font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+        /* 일본어 페이지일 때 */
+        html[lang='ja'] .navbar-brand {
+            font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+        </style>
+    </head>
+    <div class="container header-flex">
+        <a class="navbar-brand" th:href="@{${(lang != null ? lang : #locale.language) == 'ja' ? '/?lang=ja' : '/?lang=ko'}}" th:text="#{header.title}">Takahara's Blog</a>
+        <div class="header-right">
+            <nav>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/index(lang=${lang != null ? lang : #locale.language})}" th:text="#{header.nav.knowledge}">지식모음</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/projects(lang=${lang != null ? lang : #locale.language})}" th:text="#{header.nav.projects}">프로젝트</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/about(lang=${lang != null ? lang : #locale.language})}" th:text="#{header.nav.resume}">이력</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/contact(lang=${lang != null ? lang : #locale.language})}" th:text="#{header.nav.contact}">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <!-- 사용자 인증 상태에 따른 로그인/로그아웃 버튼 -->
+                <div class="auth-controls" th:if="${session.user != null}">
+                    <span class="user-info" th:text="${session.user.nickname + (#locale.language == 'ja' ? 'さん' : '님')}">사용자</span>
+                    <a href="/user/logout" class="auth-btn logout-btn" th:text="#{user.logout}">로그아웃</a>
+                </div>
+                <div class="auth-controls" th:if="${session.user == null}">
+                    <a href="/user/login" class="auth-btn login-btn" th:text="#{user.login.link}">로그인</a>
+                    <a href="/user/register" class="auth-btn register-btn" th:text="#{user.register.link}">회원가입</a>
+                </div>
+                
+                <button id="darkModeToggle" class="control-btn dark-mode-btn" title="다크모드 전환">
+                    <span class="dark-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path></svg>
+                    </span>
+                    <span class="light-icon" style="display:none;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                </button>
+                <div id="langToggle" class="lang-toggle">
+                    <a id="lang-ko" class="lang-btn post-lang-toggle" th:classappend="${#locale.language == 'ko' ? 'active' : ''}" th:href="@{?lang=ko}">KO</a>
+                    <span class="lang-separator">|</span>
+                    <a id="lang-jp" class="lang-btn post-lang-toggle" th:classappend="${#locale.language == 'ja' ? 'active' : ''}" th:href="@{?lang=ja}">JP</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 다크모드 적용 함수
+        function setDarkMode(enabled) {
+            const btn = document.getElementById('darkModeToggle');
+            if (!btn) return;
+            const darkIcon = btn.querySelector('.dark-icon');
+            const lightIcon = btn.querySelector('.light-icon');
+            
+            if (enabled) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'true');
+                if(darkIcon) darkIcon.style.display = 'none';
+                if(lightIcon) lightIcon.style.display = 'block';
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'false');
+                if(darkIcon) darkIcon.style.display = 'block';
+                if(lightIcon) lightIcon.style.display = 'none';
+            }
+        }
+        
+        // 토글 버튼 이벤트
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('darkModeToggle');
+            if(btn) {
+                // 초기 상태
+                if (localStorage.getItem('darkMode') === 'true') {
+                    setDarkMode(true);
+                } else {
+                    setDarkMode(false);
+                }
+                
+                btn.addEventListener('click', function() {
+                    const enabled = !document.body.classList.contains('dark-mode');
+                    setDarkMode(enabled);
+                });
+            }
+        });
+    </script>
+</header>

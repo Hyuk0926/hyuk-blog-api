@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 대시보드 - 백엔드 기초부터</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .admin-title {
+            font-size: 1.75rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .admin-welcome {
+            color: #5c6a7a;
+            font-size: 0.95rem;
+        }
+        .admin-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .admin-btn {
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: #2c3e50;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #34495e;
+        }
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 1px solid #dee2e6;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .posts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .posts-table th,
+        .posts-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 0.95rem;
+        }
+        .posts-table th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .posts-table tr:hover {
+            background-color: #f8fafc;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .status-published {
+            background-color: #ebf5ee;
+            color: #2f855a;
+        }
+        .status-draft {
+            background-color: #f7f0ea;
+            color: #c05621;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-action {
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .btn-edit {
+            background: #f8fafc;
+            color: #2c3e50;
+            border: 1px solid #e2e8f0;
+        }
+        .btn-edit:hover {
+            background: #edf2f7;
+        }
+        .btn-delete {
+            background: #fff5f5;
+            color: #e53e3e;
+            border: 1px solid #fed7d7;
+        }
+        .btn-delete:hover {
+            background: #fed7d7;
+        }
+        .btn-preview {
+            background: #ebf8ff;
+            color: #3182ce;
+            border: 1px solid #bee3f8;
+        }
+        .btn-preview:hover {
+            background: #bee3f8;
+        }
+        .no-posts {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #edf2f7;
+        }
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* 다크모드 지원 */
+        body.dark-mode .admin-container {
+            background: #1a202c;
+        }
+        body.dark-mode .admin-title,
+        body.dark-mode .admin-name {
+            color: #f7fafc;
+        }
+        body.dark-mode .admin-welcome {
+            color: #a0aec0;
+        }
+        body.dark-mode .posts-table {
+            background: #2d3748;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .posts-table th {
+            background: #2d3748;
+            color: #f7fafc;
+            border-bottom: 1px solid #4a5568;
+        }
+        body.dark-mode .posts-table td {
+            border-bottom: 1px solid #4a5568;
+            color: #e2e8f0;
+        }
+        body.dark-mode .posts-table tr:hover {
+            background: #323c4e;
+        }
+        body.dark-mode .stat-card {
+            background: #2d3748;
+            border-color: #4a5568;
+        }
+        body.dark-mode .stat-number {
+            color: #f7fafc;
+        }
+        body.dark-mode .stat-label {
+            color: #a0aec0;
+        }
+        body.dark-mode .btn-secondary {
+            background: #2d3748;
+            border-color: #4a5568;
+            color: #f7fafc;
+        }
+        body.dark-mode .btn-secondary:hover {
+            background: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">관리자 대시보드</h1>
+            <div class="admin-info">
+                <div class="admin-welcome">
+                    안녕하세요, <span class="admin-name">관리자</span>님
+                </div>
+                <a th:href="@{${adminPrefix + '/post/new'}}" class="admin-btn btn-primary">새 게시글</a>
+                <a href="/admin/resume" class="admin-btn btn-secondary">이력서 관리</a>
+                <a href="/admin/inquiry" class="admin-btn btn-secondary">문의 관리</a>
+                <a href="/admin/logout" class="admin-btn btn-danger">로그아웃</a>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" th:text="${#lists.size(posts)}">0</div>
+                <div class="stat-label">전체 게시글</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" th:text="${#lists.size(posts.?[published == true])}">0</div>
+                <div class="stat-label">공개 게시글</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" th:text="${#lists.size(posts.?[published == false])}">0</div>
+                <div class="stat-label">임시저장</div>
+            </div>
+        </div>
+        
+        <div th:if="${#lists.isEmpty(posts)}" class="no-posts">
+            <h3>등록된 게시글이 없습니다.</h3>
+            <p>새 게시글을 작성해보세요!</p>
+        </div>
+        
+        <table th:if="${!#lists.isEmpty(posts)}" class="posts-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>요약</th>
+                    <th>상태</th>
+                    <th>작성일</th>
+                    <th>수정일</th>
+                    <th>작업</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="post : ${posts}">
+                    <td th:text="${post.id}">1</td>
+                    <td th:text="${lang == 'ja' ? post.titleJa : post.titleKo}">게시글 제목</td>
+                    <td th:text="${lang == 'ja' ? #strings.abbreviate(post.summaryJa, 50) : #strings.abbreviate(post.summaryKo, 50)}">요약</td>
+                    <td>
+                        <span th:class="${post.published ? 'status-badge status-published' : 'status-badge status-draft'}"
+                              th:text="${post.published ? '공개' : '임시저장'}">상태</span>
+                    </td>
+                    <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+                    <td th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm')}">수정일</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a th:href="@{${adminPrefix + '/post/edit/' + post.id}}" class="btn-action btn-edit">수정</a>
+                            <a th:href="@{${adminPrefix + '/post/preview/' + post.id}}" class="btn-action btn-preview">미리보기</a>
+                            <form th:action="@{${adminPrefix + '/post/delete/' + post.id}}" method="post" style="display: inline;">
+                                <button type="submit" class="btn-action btn-delete" 
+                                        onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html> 

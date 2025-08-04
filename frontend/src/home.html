@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Takahara's Blog - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/header.css">
+  <!-- <link rel="stylesheet" href="/css/cursor.css"> -->
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+      background: url('/img/light_mode_bg.jpg') center/cover no-repeat fixed;
+      display: flex;
+      flex-direction: column;
+      transition: background-image 0.5s ease;
+    }
+    body.dark-mode {
+      background: url('/img/dark_mode_bg.jpg') center/cover no-repeat fixed;
+    }
+    .home-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .home-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      transition: color 0.5s ease;
+    }
+    body.dark-mode .home-title {
+      color: #fff;
+    }
+    .home-subtitle {
+      font-size: 1.3rem;
+      color: #555;
+      margin-bottom: 40px;
+      transition: color 0.5s ease;
+    }
+    body.dark-mode .home-subtitle {
+      color: #e0e0e0;
+    }
+    .home-nav {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .home-btn {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 16px 36px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: background 0.2s, transform 0.2s;
+      text-decoration: none;
+      outline: none;
+    }
+    .home-btn:hover {
+      background: #0056b3;
+      transform: translateY(-2px) scale(1.04);
+    }
+    .home-footer {
+      margin-top: 60px;
+      color: #222;
+      font-size: 0.95rem;
+      transition: color 0.5s ease;
+    }
+    body.dark-mode .home-footer {
+      color: #e0e0e0;
+    }
+    @media (max-width: 600px) {
+      .home-title { font-size: 2rem; }
+      .home-btn { padding: 12px 20px; font-size: 1rem; }
+      .home-nav { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div th:replace="~{fragments/header :: header}"></div>
+  <div class="home-container">
+    <div class="home-title" th:text="#{home.title}">Takahara's Blog</div>
+    <div class="home-subtitle" th:text="#{home.subtitle}">NoThing is Impossible</div>
+    <div class="home-footer" th:text="#{home.footer}">&copy; 2025 Takahara Yuuki. All rights reserved.</div>
+  </div>
+  <!-- <script src="/js/cursor.js"></script> -->
+</body>
+</html> 

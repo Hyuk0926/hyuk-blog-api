@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Takahara의 블로그</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <!-- <link rel="stylesheet" href="/css/cursor.css"> -->
+        <style>
+            .page-container {
+                margin-bottom: 64px;
+            }
+            
+            /* 게시글 메타 정보 스타일 */
+            .post-meta {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 12px;
+                font-size: 0.85rem;
+                color: #666;
+            }
+            
+            .post-date {
+                font-weight: 500;
+                color: #718096;
+                font-size: 0.8rem;
+            }
+            
+            .post-stats {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+            }
+            
+            .like-count,
+            .comment-count {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-weight: 500;
+                color: #666;
+            }
+            
+            .like-count {
+                color: #e53e3e;
+            }
+            
+            .comment-count {
+                color: #3182ce;
+            }
+            
+            /* 다크모드 */
+            body.dark-mode .post-meta {
+                color: #a0aec0;
+            }
+            
+            body.dark-mode .like-count,
+            body.dark-mode .comment-count {
+                color: #a0aec0;
+            }
+            
+            body.dark-mode .like-count {
+                color: #fc8181;
+            }
+            
+            body.dark-mode .comment-count {
+                color: #63b3ed;
+            }
+        </style>
+    </head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="hero-section">
+        <h1 class="hero-title" th:text="#{index.hero.title}">Takahara Yuuki</h1>
+    </div>
+    
+    <div class="page-container"
+         th:data-post-count-msg="#{index.posts.count.unit}"
+         th:data-no-posts-msg="#{index.posts.empty.title}"
+         th:data-no-image-msg="#{index.image.none}"
+         th:data-post-count-ko="#{index.posts.count.unit}"
+         th:data-post-count-ja="#{index.posts.count.unit}">
+        <aside class="sidebar">
+            <div class="category-list-wrapper">
+                <h3 class="category-list-title" th:text="#{index.category.title}">카테고리</h3>
+                <ul class="category-list">
+                    <li class="category-item active" data-category="" th:text="#{index.category.all}">전체보기</li>
+                    <li th:each="cat : ${categories}"
+                        class="category-item"
+                        th:data-category="${cat}"
+                        th:text="${cat.displayName}">
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-header-title">
+                        <h2 class="section-title" th:text="#{index.posts.latest}">최신 게시글</h2>
+                        <span class="post-count" th:text="${#lists.size(posts)} + ' ' + #{index.posts.count.unit}">0개</span>
+                    </div>
+                    <div class="search-form">
+                        <input type="text" id="search-input" th:placeholder="#{index.search.placeholder}" class="search-input">
+                        <button type="button" class="search-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="post-grid" id="post-grid">
+                    <div th:if="${#lists.isEmpty(posts)}" class="no-posts">
+                        <h3 th:text="#{index.posts.empty.title}">등록된 게시글이 없습니다</h3>
+                        <p th:text="#{index.posts.empty.description}">첫 번째 게시글을 작성해보세요!</p>
+                    </div>
+                    
+                    <a th:each="post : ${posts}" th:href="@{'/post/' + ${post.id} + '?lang=' + ${lang}}" class="post-card">
+                        <div class="post-image-wrapper">
+                            <img th:if="${post.imageUrl != null and post.imageUrl != ''}"
+                                 th:src="${post.imageUrl}"
+                                 th:alt="${#httpSession != null and #httpSession.getAttribute('lang') == 'ja' ? post.titleJa : post.titleKo}"
+                                 class="post-image" />
+                            <div th:if="${post.imageUrl == null or post.imageUrl == ''}" class="post-image-placeholder">
+                                <span th:text="#{index.image.none}">이미지 없음</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <h3 class="post-title" th:text="${lang == 'ja' ? post.titleJa : post.titleKo}"></h3>
+                            <p th:if="${lang == 'ja' ? post.summaryJa != null and post.summaryJa != '' : post.summaryKo != null and post.summaryKo != ''}"
+                               th:text="${lang == 'ja' ? post.summaryJa : post.summaryKo}"
+                               class="post-summary"></p>
+                            <div class="post-meta">
+                                <span class="post-date" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"></span>
+                                <div class="post-stats">
+                                    <span class="like-count" th:text="${post.likeCount != null ? post.likeCount : 0} + ' ♥'">0 ♥</span>
+                                    <span class="comment-count" th:text="${post.commentCount != null ? post.commentCount : 0} + ' 💬'">0 💬</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script src="/js/index.js"></script>
+    <!-- <script src="/js/cursor.js"></script> -->
+</body>
+</html>
