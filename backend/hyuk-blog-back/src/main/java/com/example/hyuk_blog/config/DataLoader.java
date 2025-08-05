@@ -32,16 +32,22 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        // 기존 계정 상태 확인 및 보안 점검
+        checkAndUpdateExistingAccounts();
         
         if (adminRepository.count() == 0) {
-            createInitialAdmin();
+            System.out.println("경고: 관리자 계정이 없습니다.");
+            System.out.println("환경 변수를 설정하여 관리자 계정을 생성하세요:");
+            System.out.println("ADMIN_USERNAME=your_admin_username");
+            System.out.println("ADMIN_PASSWORD=your_secure_password");
+            System.out.println("ADMIN_EMAIL=your_admin_email@example.com");
         } else {
             // 기존 관리자 계정 비밀번호 암호화 업데이트
             updateExistingAdminPasswords();
         }
         
         if (userRepository.count() == 0) {
-            createInitialUser();
+            System.out.println("사용자 계정이 없습니다. 회원가입을 통해 계정을 생성하세요.");
         } else {
             // 기존 사용자 계정 비밀번호 업데이트
             updateExistingUserPasswords();
@@ -80,6 +86,46 @@ public class DataLoader implements CommandLineRunner {
         }
 
         // 3. visitor.json은 JSON 파일 기반으로 관리하므로 JPA Entity 사용하지 않음
+    }
+    
+    private void checkAndUpdateExistingAccounts() {
+        System.out.println("=== 계정 보안 점검 시작 ===");
+        
+        // 관리자 계정 점검
+        long adminCount = adminRepository.count();
+        System.out.println("관리자 계정 수: " + adminCount);
+        
+        adminRepository.findAll().forEach(admin -> {
+            System.out.println("관리자 계정: " + admin.getUsername() + " (ID: " + admin.getId() + ")");
+            
+            // 비밀번호 보안 상태 확인
+            if (admin.getPassword().startsWith("$2a$")) {
+                System.out.println("  ✓ BCrypt로 암호화됨 (안전)");
+            } else if (admin.getPassword().length() == 64) {
+                System.out.println("  ⚠ SHA-256으로 암호화됨 (업그레이드 권장)");
+            } else {
+                System.out.println("  ⚠ 평문 비밀번호 (보안 위험)");
+            }
+        });
+        
+        // 사용자 계정 점검
+        long userCount = userRepository.count();
+        System.out.println("사용자 계정 수: " + userCount);
+        
+        userRepository.findAll().forEach(user -> {
+            System.out.println("사용자 계정: " + user.getUsername() + " (ID: " + user.getId() + ")");
+            
+            // 비밀번호 보안 상태 확인
+            if (user.getPassword().startsWith("$2a$")) {
+                System.out.println("  ✓ BCrypt로 암호화됨 (안전)");
+            } else if (user.getPassword().length() == 64) {
+                System.out.println("  ⚠ SHA-256으로 암호화됨 (업그레이드 권장)");
+            } else {
+                System.out.println("  ⚠ 평문 비밀번호 (보안 위험)");
+            }
+        });
+        
+        System.out.println("=== 계정 보안 점검 완료 ===");
     }
     
     private void createInitialAdmin() {
@@ -156,6 +202,7 @@ public class DataLoader implements CommandLineRunner {
     private void updateExistingUserPasswords() {
         // 테스트용 사용자 계정 비밀번호 업데이트는 비활성화
         System.out.println("테스트용 사용자 계정 비밀번호 업데이트를 건너뜁니다.");
+        System.out.println("사용자는 회원가입을 통해 새로운 계정을 생성하거나, 기존 계정으로 로그인할 수 있습니다.");
     }
 
     private void createInitialPosts() {

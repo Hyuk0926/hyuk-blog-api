@@ -41,8 +41,8 @@
             <button @click="logout" class="auth-btn logout-btn">{{ $t('user.logout') }}</button>
           </div>
           <div class="auth-controls" v-else>
-            <router-link to="/user/login" class="auth-btn login-btn">{{ $t('user.login.link') }}</router-link>
-            <router-link to="/user/register" class="auth-btn register-btn">{{ $t('user.register.link') }}</router-link>
+            <router-link to="/user/login" class="auth-btn login-btn">{{ $t('user.login_link') }}</router-link>
+            <router-link to="/user/register" class="auth-btn register-btn">{{ $t('user.register_link') }}</router-link>
           </div>
           
           <button @click="toggleDarkMode" class="control-btn dark-mode-btn" :title="$t('darkMode.toggle')">

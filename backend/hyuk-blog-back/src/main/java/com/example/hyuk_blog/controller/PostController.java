@@ -5,6 +5,7 @@ import com.example.hyuk_blog.entity.Category;
 import com.example.hyuk_blog.entity.Resume;
 import com.example.hyuk_blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -212,5 +213,43 @@ public class PostController {
         response.put("categories", categories);
         
         return response;
+    }
+    
+    // 게시글 상세 조회 API
+    @GetMapping("/api/posts/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getPostById(@PathVariable Long id, @RequestParam(value = "lang", required = false, defaultValue = "ja") String lang, HttpSession session) {
+        Optional<PostDto> post = postService.getPostById(id, lang);
+        if (post.isPresent()) {
+            // 사용자 정보 가져오기
+            UserDto user = (UserDto) session.getAttribute("user");
+            AdminDto admin = (AdminDto) session.getAttribute("admin");
+            Long userId = user != null ? user.getId() : (admin != null ? admin.getId() : null);
+            
+            // 좋아요 정보 조회
+            long likeCount = 0;
+            boolean isLiked = false;
+            
+            if (lang.equals("ja")) {
+                likeCount = likeService.getLikeCount(id, com.example.hyuk_blog.entity.PostType.JP);
+                if (userId != null) {
+                    isLiked = likeService.isLikedByUser(id, com.example.hyuk_blog.entity.PostType.JP, userId);
+                }
+            } else {
+                likeCount = likeService.getLikeCount(id, com.example.hyuk_blog.entity.PostType.KR);
+                if (userId != null) {
+                    isLiked = likeService.isLikedByUser(id, com.example.hyuk_blog.entity.PostType.KR, userId);
+                }
+            }
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("post", post.get());
+            response.put("likeCount", likeCount);
+            response.put("isLiked", isLiked);
+            
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

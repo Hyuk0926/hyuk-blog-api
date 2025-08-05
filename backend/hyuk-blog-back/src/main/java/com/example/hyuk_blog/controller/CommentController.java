@@ -154,6 +154,41 @@ public class CommentController {
         }
     }
     
+    // 언어별 댓글 조회 (통합 엔드포인트)
+    @GetMapping("/{postId}")
+    public ResponseEntity<Map<String, Object>> getComments(
+            @PathVariable Long postId, 
+            @RequestParam(value = "lang", required = false, defaultValue = "ja") String lang,
+            HttpSession session) {
+        try {
+            System.out.println("Getting comments for postId: " + postId + ", lang: " + lang);
+            List<CommentDto> comments;
+            
+            if ("ja".equals(lang)) {
+                comments = commentService.getCommentsByPostJpId(postId);
+            } else {
+                comments = commentService.getCommentsByPostKrId(postId);
+            }
+            
+            System.out.println("Found " + comments.size() + " comments");
+            
+            // 현재 로그인한 사용자 정보 가져오기
+            UserDto user = (UserDto) session.getAttribute("user");
+            AdminDto admin = (AdminDto) session.getAttribute("admin");
+            Long currentUserId = user != null ? user.getId() : (admin != null ? admin.getId() : null);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("comments", comments);
+            response.put("currentUserId", currentUserId);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.err.println("Error getting comments: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+    
     @PutMapping("/{commentId}")
     public ResponseEntity<Map<String, Object>> updateComment(
             @PathVariable Long commentId,

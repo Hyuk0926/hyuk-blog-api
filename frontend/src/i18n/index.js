@@ -2,77 +2,76 @@ import { createI18n } from 'vue-i18n'
 
 const messages = {
   ko: {
+    // 헤더 및 공통
     header: {
       title: "Takahara's Blog",
-      nav: {
-        home: "홈",
-        knowledge: "지식모음",
-        projects: "프로젝트",
-        resume: "이력",
-        contact: "Contact"
+      nav: { 
+        home: "홈", 
+        knowledge: "지식모음", 
+        projects: "프로젝트", 
+        resume: "이력", 
+        contact: "Contact" 
       }
     },
+    footer: {
+      description1: "블로그에 방문해주셔서 감사합니다.",
+      description2: "문의, 제안, 협업은 언제든 연락 주세요.",
+      copyrights: "© Takahara Yuuki. All rights reserved.",
+      adminLogin: "관리자 로그인"
+    },
+    // 사용자 인증
+    user: {
+      login: "로그인",
+      register: "회원가입",
+      logout: "로그아웃",
+      login_title: "로그인",
+      register_title: "회원가입",
+      login_subtitle: "좋아요와 댓글을 작성하려면 로그인이 필요합니다",
+      register_subtitle: "새로운 계정을 만들어보세요",
+      login_button: "로그인",
+      register_button: "회원가입",
+      login_link: "로그인",
+      register_link: "회원가입",
+      account_exists: "이미 계정이 있으신가요?",
+      account_not_exists: "계정이 없으신가요?",
+      username: "아이디",
+      password: "비밀번호",
+      password_confirm: "비밀번호 확인",
+      nickname: "닉네임",
+      email: "이메일",
+      back_to_main: "메인 페이지로 돌아가기",
+      capslock_warning: "CapsLock이 켜져 있습니다!",
+      registering: "가입 중..."
+    },
+    // 홈페이지
     home: {
       title: "Takahara's Blog",
       subtitle: "NoThing is Impossible",
-      footer: "© 2025 Takahara Yuuki. All rights reserved.",
-      nav: {
-        knowledge: "지식모음",
-        projects: "프로젝트",
-        resume: "이력",
-        contact: "Contact"
+      hero: {
+        title: "Takahara Yuuki"
+      },
+      category: {
+        title: "카테고리",
+        all: "전체보기"
+      },
+      posts: {
+        latest: "최신 게시글",
+        count: {
+          unit: "개"
+        },
+        empty: {
+          title: "등록된 게시글이 없습니다",
+          description: "첫 번째 게시글을 작성해보세요!"
+        }
+      },
+      search: {
+        placeholder: "검색어를 입력하세요..."
+      },
+      image: {
+        none: "이미지 없음"
       }
     },
-    user: {
-      login: {
-        title: "로그인",
-        subtitle: "좋아요와 댓글을 작성하려면 로그인이 필요합니다",
-        id: "아이디",
-        password: "비밀번호",
-        eye: "𝄐",
-        button: "로그인",
-        capslock: {
-          warning: "CapsLock이 켜져 있습니다!"
-        },
-        back: {
-          to: {
-            main: "메인 페이지로 돌아가기"
-          }
-        },
-        "back.to.main": "메인 페이지로 돌아가기"
-      },
-      logout: "로그아웃",
-      register: {
-        title: "회원가입",
-        subtitle: "새로운 계정을 만들어보세요",
-        username: "아이디",
-        nickname: "닉네임",
-        email: "이메일",
-        password: "비밀번호",
-        confirmPassword: "비밀번호 확인",
-        button: "회원가입",
-        registering: "가입 중...",
-        link: "회원가입",
-        back: {
-          to: {
-            main: "메인 페이지로 돌아가기"
-          }
-        },
-        "back.to.main": "메인 페이지로 돌아가기"
-      },
-      account: {
-        not: {
-          exists: "계정이 없으신가요?"
-        },
-        exists: "이미 계정이 있으신가요?"
-      },
-      login: {
-        link: "로그인"
-      },
-      register: {
-        link: "회원가입"
-      }
-    },
+    // 이력서
     about: {
       title: "이력서",
       description: "개발자 Takahara Yuuki의 이력서입니다."
@@ -91,6 +90,7 @@ const messages = {
         period: "기간"
       }
     },
+    // 문의하기
     contact: {
       title: "문의하기",
       form: {
@@ -99,15 +99,16 @@ const messages = {
         subject: "제목",
         message: "문의 내용",
         submit: "문의 보내기",
-        "name.placeholder": "이름을 입력하세요",
-        "email.placeholder": "이메일을 입력하세요",
-        "subject.placeholder": "제목을 입력하세요",
-        "message.placeholder": "문의 내용을 입력하세요"
+        name_placeholder: "이름을 입력하세요",
+        email_placeholder: "이메일을 입력하세요",
+        subject_placeholder: "제목을 입력하세요",
+        message_placeholder: "문의 내용을 입력하세요"
       },
       info: "문의하신 내용은 저에게 전달됩니다. 메일 주소 첨부시 빠른 시일 내에 답변드리겠습니다.",
-      "info.email": "이메일:",
+      info_email: "이메일:",
       sending: "전송 중..."
     },
+    // 프로젝트
     project: {
       personal: {
         title: "개인 프로젝트",
@@ -141,6 +142,7 @@ const messages = {
         github: "Github 보기"
       }
     },
+    // 게시글
     post: {
       loading: "로딩 중...",
       notFound: "게시글을 찾을 수 없습니다.",
@@ -149,6 +151,7 @@ const messages = {
       commentPlaceholder: "댓글을 입력하세요...",
       addComment: "댓글 작성"
     },
+    // 검색
     search: {
       title: "검색",
       placeholder: "검색어를 입력하세요...",
@@ -156,6 +159,7 @@ const messages = {
       noResults: "검색 결과가 없습니다.",
       results: "검색 결과"
     },
+    // 관리자
     admin: {
       login: {
         title: "관리자 로그인",
@@ -182,125 +186,95 @@ const messages = {
         delete: "삭제"
       }
     },
+    // 에러 페이지
     error: {
       title: "페이지를 찾을 수 없습니다",
       message: "요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.",
       backToHome: "홈으로 돌아가기",
       goBack: "이전 페이지"
     },
-    footer: {
-      description1: "블로그에 방문해주셔서 감사합니다.",
-      description2: "문의, 제안, 협업은 언제든 연락 주세요.",
-      copyrights: "© Takahara Yuuki. All rights reserved.",
-      adminLogin: "관리자 로그인"
-    },
+    // 공통
     darkMode: {
       toggle: "다크모드 전환"
     },
     common: {
       loading: "로딩 중..."
-    },
-    index: {
-      hero: {
-        title: "Takahara Yuuki"
-      },
-      category: {
-        title: "카테고리",
-        all: "전체보기"
-      },
-      posts: {
-        latest: "최신 게시글",
-        count: {
-          unit: "개"
-        },
-        empty: {
-          title: "등록된 게시글이 없습니다",
-          description: "첫 번째 게시글을 작성해보세요!"
-        }
-      },
-      search: {
-        placeholder: "검색어를 입력하세요..."
-      },
-      image: {
-        none: "이미지 없음"
-      }
     }
   },
   ja: {
+    // 헤더 및 공통
     header: {
-      title: "Takahara's Blog",
-      nav: {
-        home: "ホーム",
-        knowledge: "知識まとめ",
-        projects: "プロジェクト",
-        resume: "履歴",
-        contact: "Contact"
+      title: "高原のブログ",
+      nav: { 
+        home: "ホーム", 
+        knowledge: "知識", 
+        projects: "プロジェクト", 
+        resume: "履歴", 
+        contact: "お問い合わせ" 
       }
     },
-    home: {
-      title: "Takahara's Blog",
-      subtitle: "NoThing is Impossible",
-      footer: "© 2025 Takahara Yuuki. All rights reserved.",
-      nav: {
-        knowledge: "知識まとめ",
-        projects: "プロジェクト",
-        resume: "履歴",
-        contact: "Contact"
-      }
+    footer: {
+      description1: "ブログに訪問していただきありがとうございます。",
+      description2: "ご意見、ご提案、コラボレーションはいつでもご連絡ください。",
+      copyrights: "© 高原優輝。全著作権所有。",
+      adminLogin: "管理者ログイン"
     },
+    // 사용자 인증
     user: {
-      login: {
-        title: "ログイン",
-        subtitle: "いいねとコメントを書くにはログインが必要です",
-        id: "ユーザーID",
-        password: "パスワード",
-        eye: "𝄐",
-        button: "ログイン",
-        capslock: {
-          warning: "CapsLockがオンになっています！"
-        },
-        back: {
-          to: {
-            main: "メインページに戻る"
-          }
-        },
-        "back.to.main": "メインページに戻る"
-      },
+      login: "ログイン",
+      register: "会員登録",
       logout: "ログアウト",
-      register: {
-        title: "会員登録",
-        subtitle: "新しいアカウントを作成してください",
-        username: "ユーザーID",
-        nickname: "ニックネーム",
-        email: "メールアドレス",
-        password: "パスワード",
-        confirmPassword: "パスワード確認",
-        button: "会員登録",
-        registering: "登録中...",
-        link: "会員登録",
-        back: {
-          to: {
-            main: "メインページに戻る"
-          }
+      login_title: "ログイン",
+      register_title: "会員登録",
+      login_subtitle: "いいねとコメントを投稿するにはログインが必要です",
+      register_subtitle: "新しいアカウントを作成してください",
+      login_button: "ログイン",
+      register_button: "会員登録",
+      login_link: "ログイン",
+      register_link: "会員登録",
+      account_exists: "すでにアカウントをお持ちですか？",
+      account_not_exists: "アカウントをお持ちでないですか？",
+      username: "ユーザーID",
+      password: "パスワード",
+      password_confirm: "パスワード確認",
+      nickname: "ハンドル名",
+      email: "メールアドレス",
+      back_to_main: "メインページに戻る",
+      capslock_warning: "CapsLockがオンになっています！",
+      registering: "登録中..."
+    },
+    // 홈페이지
+    home: {
+      title: "高原のブログ",
+      subtitle: "NoThing is Impossible",
+      hero: {
+        title: "高原優輝"
+      },
+      category: {
+        title: "カテゴリー",
+        all: "すべて表示"
+      },
+      posts: {
+        latest: "最新投稿",
+        count: {
+          unit: "件"
         },
-        "back.to.main": "メインページに戻る"
+        empty: {
+          title: "投稿がありません",
+          description: "最初の投稿を作成してみましょう！"
+        }
       },
-      account: {
-        not: {
-          exists: "アカウントをお持ちでない方は"
-        },
-        exists: "すでにアカウントをお持ちですか？"
+      search: {
+        placeholder: "検索語を入力してください..."
       },
-      login: {
-        link: "ログイン"
-      },
-      register: {
-        link: "会員登録"
+      image: {
+        none: "画像なし"
       }
     },
+    // 이력서
     about: {
       title: "履歴書",
-      description: "開発者Takahara Yuukiの履歴書です。"
+      description: "開発者高原優輝の履歴書です。"
     },
     resume: {
       education: "学歴",
@@ -316,6 +290,7 @@ const messages = {
         period: "期間"
       }
     },
+    // 문의하기
     contact: {
       title: "お問い合わせ",
       form: {
@@ -324,21 +299,22 @@ const messages = {
         subject: "件名",
         message: "お問い合わせ内容",
         submit: "お問い合わせ送信",
-        "name.placeholder": "お名前を入力してください",
-        "email.placeholder": "メールアドレスを入力してください",
-        "subject.placeholder": "件名を入力してください",
-        "message.placeholder": "お問い合わせ内容を入力してください"
+        name_placeholder: "お名前を入力してください",
+        email_placeholder: "メールアドレスを入力してください",
+        subject_placeholder: "件名を入力してください",
+        message_placeholder: "お問い合わせ内容を入力してください"
       },
       info: "お問い合わせいただいた内容は私に届きます。メールアドレスを添付していただければ、早急にご返信いたします。",
-      "info.email": "メールアドレス:",
+      info_email: "メールアドレス:",
       sending: "送信中..."
     },
+    // 프로젝트
     project: {
       personal: {
         title: "個人プロジェクト",
         blog: {
           period: "2025.06 ~ 進行中",
-          title: "Takahara's Blog (個人技術ブログ)",
+          title: "高原のブログ (個人技術ブログ)",
           desc: {
             1: "履歴書/紹介、投稿CRUD、管理者ダッシュボード、訪問者数統計、多言語対応、お問い合わせ管理など様々な機能",
             2: "データ永続化、レスポンシブUI/UX、fragment構造化",
@@ -366,6 +342,7 @@ const messages = {
         github: "Githubを見る"
       }
     },
+    // 게시글
     post: {
       loading: "読み込み中...",
       notFound: "投稿が見つかりません。",
@@ -374,6 +351,7 @@ const messages = {
       commentPlaceholder: "コメントを入力してください...",
       addComment: "コメント投稿"
     },
+    // 검색
     search: {
       title: "検索",
       placeholder: "検索語を入力してください...",
@@ -381,6 +359,7 @@ const messages = {
       noResults: "検索結果がありません。",
       results: "検索結果"
     },
+    // 관리자
     admin: {
       login: {
         title: "管理者ログイン",
@@ -407,56 +386,27 @@ const messages = {
         delete: "削除"
       }
     },
+    // 에러 페이지
     error: {
       title: "ページが見つかりません",
       message: "お探しのページが存在しないか、移動された可能性があります。",
       backToHome: "ホームに戻る",
       goBack: "前のページ"
     },
-    footer: {
-      description1: "ブログにご訪問いただき、ありがとうございます。",
-      description2: "お問い合わせ、提案、協力はいつでもご連絡ください。",
-      copyrights: "© Takahara Yuuki. All rights reserved.",
-      adminLogin: "管理者ログイン"
-    },
+    // 공통
     darkMode: {
       toggle: "ダークモード切り替え"
     },
     common: {
       loading: "読み込み中..."
-    },
-    index: {
-      hero: {
-        title: "Takahara Yuuki"
-      },
-      category: {
-        title: "カテゴリー",
-        all: "すべて表示"
-      },
-      posts: {
-        latest: "最新投稿",
-        count: {
-          unit: "件"
-        },
-        empty: {
-          title: "投稿がありません",
-          description: "最初の投稿を作成してみましょう！"
-        }
-      },
-      search: {
-        placeholder: "検索語を入力してください..."
-      },
-      image: {
-        none: "画像なし"
-      }
     }
   }
 }
 
 const i18n = createI18n({
   legacy: false,
-  locale: localStorage.getItem('locale') || 'ja',
-  fallbackLocale: 'ja',
+  locale: localStorage.getItem('locale') || 'ko',
+  fallbackLocale: 'ko',
   messages
 })
 

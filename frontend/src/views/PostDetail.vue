@@ -94,6 +94,7 @@ const loadPost = async () => {
     post.value = response.data.post
     isLiked.value = response.data.isLiked
     likeCount.value = response.data.likeCount
+    console.log('게시글 데이터:', response.data)
   } catch (error) {
     console.error('게시글 로드 실패:', error)
   } finally {

@@ -2,8 +2,8 @@
   <div class="register-page">
     <div class="register-container">
       <div class="register-header">
-        <h1 class="register-title">{{ $t('user.register.title') }}</h1>
-        <p class="register-subtitle">{{ $t('user.register.subtitle') }}</p>
+        <h1 class="register-title">{{ $t('user.register_title') }}</h1>
+        <p class="register-subtitle">{{ $t('user.register_subtitle') }}</p>
       </div>
       
       <div v-if="error" class="error-message">
@@ -12,7 +12,7 @@
       
       <form @submit.prevent="handleRegister">
         <div class="form-group">
-          <label for="username" class="form-label">{{ $t('user.register.username') }}</label>
+          <label for="username" class="form-label">{{ $t('user.username') }}</label>
           <input 
             type="text" 
             id="username" 
@@ -27,7 +27,7 @@
         </div>
         
         <div class="form-group">
-          <label for="nickname" class="form-label">{{ $t('user.register.nickname') }}</label>
+          <label for="nickname" class="form-label">{{ $t('user.nickname') }}</label>
           <input 
             type="text" 
             id="nickname" 
@@ -42,7 +42,7 @@
         </div>
         
         <div class="form-group">
-          <label for="email" class="form-label">{{ $t('user.register.email') }}</label>
+          <label for="email" class="form-label">{{ $t('user.email') }}</label>
           <input 
             type="email" 
             id="email" 
@@ -57,7 +57,7 @@
         </div>
         
         <div class="form-group">
-          <label for="password" class="form-label">{{ $t('user.register.password') }}</label>
+          <label for="password" class="form-label">{{ $t('user.password') }}</label>
           <div style="position:relative;">
             <input 
               :type="showPassword ? 'text' : 'password'" 
@@ -73,13 +73,13 @@
               title="비밀번호 보기" 
               style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:1.3rem; color:#888;"
             >
-              {{ $t('user.login.eye') }}
+              👁
             </span>
           </div>
         </div>
         
         <div class="form-group">
-          <label for="confirmPassword" class="form-label">{{ $t('user.register.confirmPassword') }}</label>
+          <label for="confirmPassword" class="form-label">{{ $t('user.password_confirm') }}</label>
           <input 
             type="password" 
             id="confirmPassword" 
@@ -94,19 +94,19 @@
         </div>
         
         <button type="submit" class="register-button" :disabled="loading || !isFormValid">
-          {{ loading ? $t('user.register.registering') : $t('user.register.button') }}
+          {{ loading ? $t('user.registering') : $t('user.register_button') }}
         </button>
       </form>
       
       <div class="login-link">
         <p>
-          <span>{{ $t('user.account.exists') }}</span> 
-          <router-link to="/user/login">{{ $t('user.login.link') }}</router-link>
+          <span>{{ $t('user.account_exists') }}</span> 
+          <router-link to="/user/login">{{ $t('user.login_link') }}</router-link>
         </p>
       </div>
       
       <div class="back-link">
-        <router-link to="/">← {{ $t('user.register.back.to.main') }}</router-link>
+        <router-link to="/">← {{ $t('user.back_to_main') }}</router-link>
       </div>
     </div>
   </div>

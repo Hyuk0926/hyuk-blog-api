@@ -2,8 +2,8 @@
   <div class="login-page">
     <div class="login-container">
       <div class="login-header">
-        <h1 class="login-title">{{ $t('user.login.title') }}</h1>
-        <p class="login-subtitle">{{ $t('user.login.subtitle') }}</p>
+        <h1 class="login-title">{{ $t('user.login_title') }}</h1>
+        <p class="login-subtitle">{{ $t('user.login_subtitle') }}</p>
       </div>
       
       <div v-if="error" class="error-message">
@@ -16,7 +16,7 @@
       
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="username" class="form-label">{{ $t('user.login.id') }}</label>
+          <label for="username" class="form-label">{{ $t('user.username') }}</label>
           <input 
             type="text" 
             id="username" 
@@ -27,7 +27,7 @@
         </div>
         
         <div class="form-group">
-          <label for="password" class="form-label">{{ $t('user.login.password') }}</label>
+          <label for="password" class="form-label">{{ $t('user.password') }}</label>
           <div style="position:relative;">
             <input 
               :type="showPassword ? 'text' : 'password'" 
@@ -43,28 +43,28 @@
               title="비밀번호 보기" 
               style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:1.3rem; color:#888;"
             >
-              {{ $t('user.login.eye') }}
+              👁
             </span>
           </div>
           <div v-if="capsLockOn" class="caps-lock-warning">
-            {{ $t('user.login.capslock.warning') }}
+            {{ $t('user.capslock_warning') }}
           </div>
         </div>
         
         <button type="submit" class="login-button" :disabled="loading">
-          {{ loading ? '로그인 중...' : $t('user.login.button') }}
+          {{ loading ? '로그인 중...' : $t('user.login_button') }}
         </button>
       </form>
       
       <div class="register-link">
         <p>
-          <span>{{ $t('user.account.not.exists') }}</span> 
-          <router-link to="/user/register">{{ $t('user.register.link') }}</router-link>
+          <span>{{ $t('user.account_not_exists') }}</span> 
+          <router-link to="/user/register">{{ $t('user.register_link') }}</router-link>
         </p>
       </div>
       
       <div class="back-link">
-        <router-link to="/">← {{ $t('user.login.back.to.main') }}</router-link>
+        <router-link to="/">← {{ $t('user.back_to_main') }}</router-link>
       </div>
     </div>
   </div>
