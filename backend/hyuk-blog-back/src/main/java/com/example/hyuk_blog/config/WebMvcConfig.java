@@ -22,7 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.KOREAN);
+        slr.setDefaultLocale(Locale.JAPANESE);
         return slr;
     }
 

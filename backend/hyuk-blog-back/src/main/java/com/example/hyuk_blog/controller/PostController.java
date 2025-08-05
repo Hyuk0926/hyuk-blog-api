@@ -42,7 +42,7 @@ public class PostController {
     private CommentService commentService;
 
     @GetMapping("/about")
-    public String about(@RequestParam(value = "lang", required = false, defaultValue = "ko") String lang, Model model) {
+    public String about(@RequestParam(value = "lang", required = false, defaultValue = "ja") String lang, Model model) {
         Resume resume = adminController.getResume();
         model.addAttribute("resume", resume);
         model.addAttribute("lang", lang);
@@ -55,7 +55,7 @@ public class PostController {
     }
 
     @GetMapping("/index")
-    public String index(@RequestParam(value = "lang", required = false, defaultValue = "ko") String lang, Model model) {
+    public String index(@RequestParam(value = "lang", required = false, defaultValue = "ja") String lang, Model model) {
         List<PostDto> posts = postService.getAllPublishedPosts(lang);
         model.addAttribute("posts", posts);
         model.addAttribute("categories", Category.values());
@@ -79,7 +79,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public String postDetail(@PathVariable Long id, @RequestParam(value = "lang", required = false, defaultValue = "ko") String lang, Model model, HttpServletRequest request, HttpSession session) {
+    public String postDetail(@PathVariable Long id, @RequestParam(value = "lang", required = false, defaultValue = "ja") String lang, Model model, HttpServletRequest request, HttpSession session) {
         Optional<PostDto> post = postService.getPostById(id, lang);
         if (post.isPresent()) {
             // user 또는 admin 세션 확인
@@ -139,13 +139,13 @@ public class PostController {
     }
 
     @GetMapping("/projects")
-    public String projects(@RequestParam(value = "lang", required = false, defaultValue = "ko") String lang, Model model) {
+    public String projects(@RequestParam(value = "lang", required = false, defaultValue = "ja") String lang, Model model) {
         model.addAttribute("lang", lang);
         return "projects";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam String q, @RequestParam(value = "lang", required = false, defaultValue = "ko") String lang, Model model) {
+    public String search(@RequestParam String q, @RequestParam(value = "lang", required = false, defaultValue = "ja") String lang, Model model) {
         List<PostDto> posts = postService.searchPublishedPosts(q, lang);
         model.addAttribute("posts", posts);
         model.addAttribute("searchQuery", q);
@@ -190,13 +190,13 @@ public class PostController {
 
     @GetMapping("/api/search")
     @ResponseBody
-    public List<PostDto> searchApi(@RequestParam String q, @RequestParam(value = "lang", required = false, defaultValue = "ko") String lang) {
+    public List<PostDto> searchApi(@RequestParam String q, @RequestParam(value = "lang", required = false, defaultValue = "ja") String lang) {
         return postService.searchPublishedPosts(q, lang);
     }
 
     @GetMapping("/api/posts")
     @ResponseBody
-    public Map<String, Object> getPosts(@RequestParam(value = "lang", required = false, defaultValue = "ko") String lang) {
+    public Map<String, Object> getPosts(@RequestParam(value = "lang", required = false, defaultValue = "ja") String lang) {
         List<PostDto> posts = postService.getAllPublishedPosts(lang);
         
         // 카테고리 추출

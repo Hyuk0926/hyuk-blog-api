@@ -23,11 +23,11 @@ public class UserController {
     @Autowired
     private JwtAuthService jwtAuthService;
     
-    // 로그인 페이지
-    @GetMapping("/login")
-    public String loginForm() {
-        return "user/login";
-    }
+    // 로그인 페이지 - SPA에서 처리
+    // @GetMapping("/login")
+    // public String loginForm() {
+    //     return "user/login";
+    // }
     
     // 로그인 처리
     @PostMapping("/login")
@@ -70,11 +70,11 @@ public class UserController {
         }
     }
     
-    // 회원가입 페이지
-    @GetMapping("/register")
-    public String registerForm() {
-        return "user/register";
-    }
+    // 회원가입 페이지 - SPA에서 처리
+    // @GetMapping("/register")
+    // public String registerForm() {
+    //     return "user/register";
+    // }
     
     // 회원가입 처리
     @PostMapping("/register")

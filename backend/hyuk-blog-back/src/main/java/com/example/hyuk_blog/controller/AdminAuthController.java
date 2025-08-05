@@ -20,11 +20,11 @@ public class AdminAuthController {
     @Autowired
     private AdminService adminService;
     
-    // 로그인 페이지
-    @GetMapping("/login")
-    public String loginForm() {
-        return "admin/login";
-    }
+    // 로그인 페이지 - SPA에서 처리
+    // @GetMapping("/login")
+    // public String loginForm() {
+    //     return "admin/login";
+    // }
     
     // 로그인
 
