@@ -113,7 +113,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import api from '../../utils/api'
@@ -248,14 +248,16 @@ onMounted(() => {
   document.addEventListener('keydown', checkCapsLock)
   document.addEventListener('keyup', checkCapsLock)
   
-  // 비밀번호 확인 실시간 검증
-  const passwordInput = document.getElementById('password')
-  const confirmPasswordInput = document.getElementById('confirmPassword')
-  
-  if (passwordInput && confirmPasswordInput) {
-    passwordInput.addEventListener('input', validatePassword)
-    confirmPasswordInput.addEventListener('input', validatePassword)
-  }
+  // 비밀번호 확인 실시간 검증 - nextTick을 사용하여 DOM이 완전히 렌더링된 후 실행
+  nextTick(() => {
+    const passwordInput = document.getElementById('password')
+    const confirmPasswordInput = document.getElementById('confirmPassword')
+    
+    if (passwordInput && confirmPasswordInput) {
+      passwordInput.addEventListener('input', validatePassword)
+      confirmPasswordInput.addEventListener('input', validatePassword)
+    }
+  })
 })
 </script>
 

@@ -15,7 +15,7 @@ const isLoginPage = computed(() => {
 
 // 라우트 변경 감지하여 Home 페이지가 아닐 때는 body 배경 초기화
 watch(() => route.path, (newPath) => {
-  if (newPath !== '/home') {
+  if (newPath !== '/home' && document && document.body) {
     document.body.style.backgroundImage = 'none'
     document.body.style.background = ''
   }

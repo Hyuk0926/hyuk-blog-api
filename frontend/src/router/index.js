@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import Home from '../views/Home.vue'
 import Knowledge from '../views/Knowledge.vue'
 import About from '../views/About.vue'

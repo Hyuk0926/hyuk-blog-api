@@ -57,7 +57,8 @@ const messages = {
           to: {
             main: "메인 페이지로 돌아가기"
           }
-        }
+        },
+        "back.to.main": "메인 페이지로 돌아가기"
       },
       account: {
         not: {
@@ -281,7 +282,8 @@ const messages = {
           to: {
             main: "メインページに戻る"
           }
-        }
+        },
+        "back.to.main": "メインページに戻る"
       },
       account: {
         not: {
